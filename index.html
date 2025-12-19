@@ -19,24 +19,35 @@
     <div id="resultText">Hasil scan akan muncul di sini</div>
 
     <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // Menampilkan hasil scan
-            document.getElementById('resultText').innerHTML = `Tujuan: <a href="${decodedText}">${decodedText}</a>`;
-            
-            // Otomatis mengarahkan jika hasil scan berupa link
-            if (decodedText.startsWith("http")) {
-                window.location.href = decodedText;
-            }
+    // Konfigurasi untuk memaksa kamera belakang
+    const config = { 
+        fps: 10, 
+        qrbox: 250,
+        // Mengarahkan scanner untuk memprioritaskan kamera belakang
+        videoConstraints: {
+            facingMode: { exact: "environment" }
         }
+    };
 
-        function onScanFailure(error) {
-            // Abaikan error scanning yang sedang berjalan
+    const html5QrCode = new Html5Qrcode("reader");
+
+    const onScanSuccess = (decodedText, decodedResult) => {
+        document.getElementById('resultText').innerHTML = `Tujuan: <a href="${decodedText}">${decodedText}</a>`;
+        if (decodedText.startsWith("http")) {
+            window.location.href = decodedText;
         }
+    };
 
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 }
-        );
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    </script>
+    // Menjalankan scanner secara otomatis saat halaman dibuka
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config, 
+        onScanSuccess
+    ).catch((err) => {
+        // Jika kamera belakang tidak ditemukan (misal di Laptop), gunakan kamera yang tersedia
+        console.error("Gagal akses kamera belakang, mencoba kamera default...", err);
+        html5QrCode.start({ facingMode: "user" }, config, onScanSuccess);
+    });
+</script>
 </body>
 </html>
