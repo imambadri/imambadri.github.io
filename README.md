@@ -1,1 +1,1 @@
-# imambadrey-ai.github.io
+# imambadri.github.io
