@@ -33,48 +33,70 @@
     <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
     <script>
-        const beep = document.getElementById("beep-sound");
-        const darkMsg = document.getElementById("dark-instruction");
-        const loadingMsg = document.getElementById("loading-msg");
+    const beep = document.getElementById("beep-sound");
+    const darkMsg = document.getElementById("dark-instruction");
+    const loadingMsg = document.getElementById("loading-msg");
+    const statusText = document.getElementById("resultText");
 
-        function onScanSuccess(decodedText, decodedResult) {
-            // 1. Feedback Suara & Getaran
-            beep.play();
-            if (navigator.vibrate) navigator.vibrate(200);
+    let failCount = 0;
+    let hasVibratedForDark = false; // Mencegah getar terus-menerus saat gelap
 
-            document.getElementById('resultText').innerHTML = `Berhasil! Mengalihkan...`;
+    function onScanSuccess(decodedText, decodedResult) {
+        // Getar panjang untuk sukses
+        if (navigator.vibrate) navigator.vibrate(300);
+        beep.play();
+
+        statusText.innerHTML = `Berhasil! Mengalihkan...`;
+        
+        setTimeout(() => {
+            window.location.href = decodedText;
+        }, 500);
+    }
+
+    function onScanFailure(error) {
+        failCount++;
+        
+        // Jika gagal scan karena gelap
+        if (failCount > 60) {
+            darkMsg.style.display = "block";
             
-            // 2. Redirect Otomatis
-            setTimeout(() => {
-                window.location.href = decodedText;
-            }, 500);
-        }
-
-        // Fungsi untuk mendeteksi kegagalan scan (sering terjadi di tempat gelap)
-        let failCount = 0;
-        function onScanFailure(error) {
-            failCount++;
-            // Jika dalam 50 frame gagal terus, munculkan instruksi kegelapan
-            if (failCount > 50) {
-                darkMsg.style.display = "block";
+            // Getar pendek 2 kali saat instruksi gelap muncul pertama kali
+            if (!hasVibratedForDark && navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); 
+                hasVibratedForDark = true; 
             }
         }
+    }
 
-        const html5QrCode = new Html5Qrcode("reader");
-        const config = { fps: 15, qrbox: { width: 250, height: 250 } };
+    // Reset saat kondisi terang kembali
+    setInterval(() => {
+        if (failCount > 0) failCount--; 
+        
+        if (failCount < 20) {
+            darkMsg.style.display = "none";
+            hasVibratedForDark = false; // Reset status getar agar bisa getar lagi jika gelap lagi
+        }
+    }, 100);
 
-        // Mulai kamera otomatis
-        html5QrCode.start(
-            { facingMode: "environment" }, 
-            config, 
-            onScanSuccess,
-            onScanFailure
-        ).then(() => {
-            loadingMsg.style.display = "none";
-        }).catch((err) => {
-            loadingMsg.innerHTML = "Gagal akses kamera. Pastikan izin kamera aktif.";
-            console.error(err);
-        });
-    </script>
+    const html5QrCode = new Html5Qrcode("reader");
+    const config = { 
+        fps: 20, 
+        qrbox: { width: 250, height: 250 },
+        videoConstraints: {
+            facingMode: { exact: "environment" }
+        }
+    };
+
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config, 
+        onScanSuccess,
+        onScanFailure
+    ).then(() => {
+        loadingMsg.style.display = "none";
+    }).catch((err) => {
+        loadingMsg.innerHTML = "Gagal akses kamera.";
+    });
+</script>
 </body>
 </html>
