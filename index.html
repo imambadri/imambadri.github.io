@@ -3,51 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WiFi QR Scanner - My Domain</title>
+    <title>WiFi Scanner Pro</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f0f2f5; margin: 0; padding: 20px; }
-        #reader { width: 100%; max-width: 500px; margin: auto; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #24292e; }
-        #result { margin-top: 20px; font-weight: bold; color: #007bff; word-wrap: break-word; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #1a1a1a; color: white; margin: 0; padding: 20px; }
+        #reader { width: 100%; max-width: 450px; margin: 20px auto; border-radius: 15px; overflow: hidden; border: 2px solid #333; background: #000; }
+        .status-box { background: #2d2d2d; padding: 15px; border-radius: 10px; max-width: 420px; margin: auto; }
+        #resultText { color: #4caf50; font-weight: bold; margin-top: 10px; min-height: 20px; }
+        #loading-msg { color: #ff9800; font-style: italic; }
+        .dark-warning { display: none; background: #ff5722; color: white; padding: 10px; border-radius: 5px; margin-top: 15px; font-size: 14px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <h2>Scan QR WiFi</h2>
+    <h2>WiFi Access Scanner</h2>
+    
+    <div id="loading-msg">Menyiapkan kamera...</div>
+    
     <div id="reader"></div>
-    <div id="resultText">Hasil scan akan muncul di sini</div>
+
+    <div class="status-box">
+        <div id="resultText">Siap memindai QR Code</div>
+        <div id="dark-instruction" class="dark-warning">
+            ⚠️ Terlalu gelap? Dekatkan QR atau nyalakan lampu senter HP Anda.
+        </div>
+    </div>
+
+    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
     <script>
-    // Konfigurasi untuk memaksa kamera belakang
-    const config = { 
-        fps: 10, 
-        qrbox: 250,
-        // Mengarahkan scanner untuk memprioritaskan kamera belakang
-        videoConstraints: {
-            facingMode: { exact: "environment" }
+        const beep = document.getElementById("beep-sound");
+        const darkMsg = document.getElementById("dark-instruction");
+        const loadingMsg = document.getElementById("loading-msg");
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // 1. Feedback Suara & Getaran
+            beep.play();
+            if (navigator.vibrate) navigator.vibrate(200);
+
+            document.getElementById('resultText').innerHTML = `Berhasil! Mengalihkan...`;
+            
+            // 2. Redirect Otomatis
+            setTimeout(() => {
+                window.location.href = decodedText;
+            }, 500);
         }
-    };
 
-    const html5QrCode = new Html5Qrcode("reader");
-
-    const onScanSuccess = (decodedText, decodedResult) => {
-        document.getElementById('resultText').innerHTML = `Tujuan: <a href="${decodedText}">${decodedText}</a>`;
-        if (decodedText.startsWith("http")) {
-            window.location.href = decodedText;
+        // Fungsi untuk mendeteksi kegagalan scan (sering terjadi di tempat gelap)
+        let failCount = 0;
+        function onScanFailure(error) {
+            failCount++;
+            // Jika dalam 50 frame gagal terus, munculkan instruksi kegelapan
+            if (failCount > 50) {
+                darkMsg.style.display = "block";
+            }
         }
-    };
 
-    // Menjalankan scanner secara otomatis saat halaman dibuka
-    html5QrCode.start(
-        { facingMode: "environment" }, 
-        config, 
-        onScanSuccess
-    ).catch((err) => {
-        // Jika kamera belakang tidak ditemukan (misal di Laptop), gunakan kamera yang tersedia
-        console.error("Gagal akses kamera belakang, mencoba kamera default...", err);
-        html5QrCode.start({ facingMode: "user" }, config, onScanSuccess);
-    });
-</script>
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 15, qrbox: { width: 250, height: 250 } };
+
+        // Mulai kamera otomatis
+        html5QrCode.start(
+            { facingMode: "environment" }, 
+            config, 
+            onScanSuccess,
+            onScanFailure
+        ).then(() => {
+            loadingMsg.style.display = "none";
+        }).catch((err) => {
+            loadingMsg.innerHTML = "Gagal akses kamera. Pastikan izin kamera aktif.";
+            console.error(err);
+        });
+    </script>
 </body>
 </html>
