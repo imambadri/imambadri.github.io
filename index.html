@@ -39,10 +39,9 @@
     const statusText = document.getElementById("resultText");
 
     let failCount = 0;
-    let hasVibratedForDark = false; // Mencegah getar terus-menerus saat gelap
+    let isDarkActive = false; // Status apakah instruksi gelap sedang tampil
 
     function onScanSuccess(decodedText, decodedResult) {
-        // Getar panjang untuk sukses
         if (navigator.vibrate) navigator.vibrate(300);
         beep.play();
 
@@ -53,34 +52,45 @@
         }, 500);
     }
 
+    // Fungsi ini dipanggil setiap kali scanner gagal membaca QR di satu frame
     function onScanFailure(error) {
         failCount++;
         
-        // Jika gagal scan karena gelap
-        if (failCount > 60) {
-            darkMsg.style.display = "block";
-            
-            // Getar pendek 2 kali saat instruksi gelap muncul pertama kali
-            if (!hasVibratedForDark && navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]); 
-                hasVibratedForDark = true; 
+        // JIKA GELAP: Jika gagal lebih dari 40 frame
+        if (failCount > 40) {
+            if (!isDarkActive) {
+                darkMsg.style.display = "block";
+                isDarkActive = true;
+                
+                // Getar saat instruksi muncul
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
             }
         }
     }
 
-    // Reset saat kondisi terang kembali
+    // FUNGSI PENJAGA (Konstan): Mengecek kondisi setiap 100ms
     setInterval(() => {
-        if (failCount > 0) failCount--; 
-        
-        if (failCount < 20) {
-            darkMsg.style.display = "none";
-            hasVibratedForDark = false; // Reset status getar agar bisa getar lagi jika gelap lagi
+        // Jika tidak ada error baru dari scanner, artinya kamera menangkap gambar jelas
+        // Kita paksa failCount turun dengan cepat jika tidak ada aktivitas di onScanFailure
+        if (failCount > 0) {
+            failCount -= 5; // Penurunan lebih agresif agar cepat reset
+        }
+
+        // JIKA TERANG: Jika failCount rendah, hilangkan instruksi
+        if (failCount <= 0) {
+            failCount = 0; // Pastikan tidak negatif
+            if (isDarkActive) {
+                darkMsg.style.display = "none";
+                isDarkActive = false; // Reset status agar bisa bergetar lagi nanti
+            }
         }
     }, 100);
 
     const html5QrCode = new Html5Qrcode("reader");
     const config = { 
-        fps: 20, 
+        fps: 25, // Frame per second lebih tinggi agar lebih responsif
         qrbox: { width: 250, height: 250 },
         videoConstraints: {
             facingMode: { exact: "environment" }
