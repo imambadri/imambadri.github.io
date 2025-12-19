@@ -3,18 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Datang di Wi-Fi Kami</title>
+    <title>WiFi QR Scanner - My Domain</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; }
-        .btn { display: inline-block; background: #24292e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        body { font-family: sans-serif; text-align: center; background: #f0f2f5; margin: 0; padding: 20px; }
+        #reader { width: 100%; max-width: 500px; margin: auto; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #24292e; }
+        #result { margin-top: 20px; font-weight: bold; color: #007bff; word-wrap: break-word; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Selamat Datang!</h2>
-        <p>Silakan klik tombol di bawah untuk melihat instruksi login atau syarat penggunaan.</p>
-        <a href="#" class="btn">Lanjutkan Ke Internet</a>
-    </div>
+
+    <h2>Scan QR WiFi</h2>
+    <div id="reader"></div>
+    <div id="resultText">Hasil scan akan muncul di sini</div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Menampilkan hasil scan
+            document.getElementById('resultText').innerHTML = `Tujuan: <a href="${decodedText}">${decodedText}</a>`;
+            
+            // Otomatis mengarahkan jika hasil scan berupa link
+            if (decodedText.startsWith("http")) {
+                window.location.href = decodedText;
+            }
+        }
+
+        function onScanFailure(error) {
+            // Abaikan error scanning yang sedang berjalan
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 }
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
 </body>
 </html>
