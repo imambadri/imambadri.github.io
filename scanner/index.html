@@ -1,1 +1,109 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi Scanner Pro</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #1a1a1a; color: white; margin: 0; padding: 20px; }
+        #reader { width: 100%; max-width: 450px; margin: 20px auto; border-radius: 15px; overflow: hidden; border: 2px solid #333; background: #000; }
+        .status-box { background: #2d2d2d; padding: 15px; border-radius: 10px; max-width: 420px; margin: auto; }
+        #resultText { color: #4caf50; font-weight: bold; margin-top: 10px; min-height: 20px; }
+        #loading-msg { color: #ff9800; font-style: italic; }
+        .dark-warning { display: none; background: #ff5722; color: white; padding: 10px; border-radius: 5px; margin-top: 15px; font-size: 14px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>WiFi Access Scanner</h2>
+    
+    <div id="loading-msg">Menyiapkan kamera...</div>
+    
+    <div id="reader"></div>
+
+    <div class="status-box">
+        <div id="resultText">Siap memindai QR Code</div>
+        <div id="dark-instruction" class="dark-warning">
+            ⚠️ Terlalu gelap? Dekatkan QR atau nyalakan flash HP Anda.
+        </div>
+    </div>
+
+    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+
+    <script>
+    const beep = document.getElementById("beep-sound");
+    const darkMsg = document.getElementById("dark-instruction");
+    const loadingMsg = document.getElementById("loading-msg");
+    const statusText = document.getElementById("resultText");
+
+    let lastSuccessFrame = Date.now(); // Waktu terakhir kamera menangkap gambar jelas
+    let isDarkActive = false;
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (navigator.vibrate) navigator.vibrate(300);
+        beep.play();
+        statusText.innerHTML = `Berhasil! Mengalihkan...`;
+        setTimeout(() => { window.location.href = decodedText; }, 500);
+    }
+
+    function onScanFailure(error) {
+        // Jika errornya bukan karena kamera mati, tapi karena QR tidak ditemukan
+        // Kita periksa apakah sudah terlalu lama (gelap/blur)
+        let now = Date.now();
+        
+        // Jika sudah lebih dari 2.5 detik gagal terus
+        if (now - lastSuccessFrame > 2500) {
+            if (!isDarkActive) {
+                darkMsg.style.display = "block";
+                isDarkActive = true;
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            }
+        }
+
+        // Catatan: Library ini akan memicu 'failure' setiap frame jika QR tidak ditemukan.
+        // Namun, jika kamera benar-benar gelap total, sensor akan mengirim sinyal error yang berbeda.
+    }
+
+    // Fungsi konstan untuk memantau aktivitas
+    setInterval(() => {
+        // Kita cek secara berkala, jika kamera merespon (onScanFailure terpanggil), 
+        // tapi kita ingin reset jika user memberi cahaya.
+        // Untuk sistem yang lebih simpel, kita tambahkan tombol reset atau 
+        // kita pantau jika library masih berjalan.
+    }, 500);
+
+    const html5QrCode = new Html5Qrcode("reader");
+    const config = { 
+        fps: 20, 
+        qrbox: { width: 250, height: 250 },
+        videoConstraints: { facingMode: { exact: "environment" } }
+    };
+
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config, 
+        onScanSuccess,
+        (error) => {
+            // Setiap kali kamera "berusaha" mencari QR tapi gagal (bisa karena gelap)
+            onScanFailure(error);
+        }
+    ).then(() => {
+        loadingMsg.style.display = "none";
+        // Reset waktu mulai saat kamera berhasil terbuka
+        lastSuccessFrame = Date.now();
+    }).catch((err) => {
+        loadingMsg.innerHTML = "Gagal akses kamera.";
+    });
+
+    // Reset instruksi jika user menyentuh layar (asumsi user sudah sadar/menyalakan lampu)
+    document.body.addEventListener('touchstart', () => {
+        darkMsg.style.display = "none";
+        isDarkActive = false;
+        lastSuccessFrame = Date.now();
+    });
+</script>
+</body>
+</html>
