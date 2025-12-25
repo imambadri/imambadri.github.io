@@ -1,0 +1,870 @@
+
+        /* Base Styles */
+        :root {
+            /* Completely new color palette - retro cyberpunk */
+            --primary-color: #ff2e63;
+            --secondary-color: #08d9d6;
+            --accent-color: #f9c80e;
+            --dark-bg: #1a1a2e;
+            --darker-bg: #16213e;
+            --light-bg: #252a34;
+            --light-text: #eaeaea;
+            --light-text-secondary: #b2b2b2;
+            --dark-text: #1a1a2e;
+            
+            /* Sizing and spacing */
+            --transition-speed: 0.3s;
+            --border-radius-sm: 0;
+            --border-radius-md: 0;
+            --border-radius-lg: 0;
+            --border-radius-xl: 0;
+            
+            /* Mobile-specific variables */
+            --mobile-padding: 1rem;
+            --mobile-font-size: 1rem;
+            --mobile-touch-target: 2.75rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "segoe ui", Verdana, Roboto, "helvetica neue", Arial, sans-serif, "apple color emoji";
+            font-size: 14px; 
+            margin: 0;
+            background: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Retro Grid Background */
+        .retro-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-color: var(--dark-bg);
+            background-image: 
+                linear-gradient(rgba(255, 46, 99, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 46, 99, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            perspective: 1000px;
+        }
+
+        .retro-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(26, 26, 46, 0.8) 0%, 
+                rgba(26, 26, 46, 0.2) 40%, 
+                rgba(26, 26, 46, 0.2) 60%, 
+                rgba(26, 26, 46, 0.8) 100%);
+        }
+
+        /* Typography */
+        a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            transition: color var(--transition-speed);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        /* HEADER */
+        .header {
+            width: 100%;
+            padding: 1.5rem;
+            background-color: var(--darker-bg);
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--light-text);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-left: 0.5rem;
+            animation: textShadow 1.5s infinite;
+        }
+
+        .logo-text::before,
+        .logo-text::after {
+            content: 'AFR-CLOUD.NET';
+            position: absolute;
+            top: 0;
+            left: 0.5rem;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            background-color: transparent;
+        }
+
+        .logo-text::before {
+            left: 0.48rem;
+            text-shadow: -2px 0 var(--secondary-color);
+            animation: glitch-1 2.5s infinite ease-in-out;
+            opacity: 0.8;
+        }
+
+        .logo-text::after {
+            left: 0.52rem;
+            text-shadow: 2px 0 var(--primary-color);
+            animation: glitch-2 2s infinite ease-in-out reverse;
+            opacity: 0.8;
+        }
+
+        .logo-highlight {
+            color: var(--primary-color);
+        }
+
+        .header-decoration {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background-color: var(--primary-color);
+            opacity: 0.1;
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Card Component - Retro Tech Style */
+        .card {
+            background-color: var(--light-bg);
+            border: 1px solid var(--primary-color);
+            box-shadow: 5px 5px 0 var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header-tabs {
+            display: flex;
+        }
+
+        .card-tab {
+            padding: 0.5rem 1rem;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .card-tab.active {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            font-weight: 700;
+        }
+
+        .card-tab:hover:not(.active) {
+            border-color: var(--secondary-color);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Login Form - Retro Tech Style */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--darker-bg);
+            border: 1px solid var(--secondary-color);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 46, 99, 0.3);
+        }
+
+        .input::placeholder {
+            color: var(--light-text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Button - Retro Tech Style */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Animated Login Button */
+        .btn-login {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .btn-login.loading {
+            background-color: var(--darker-bg);
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .btn-login.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 2px;
+            background: var(--secondary-color);
+            animation: loading-bar 2s infinite ease-in-out;
+        }
+
+        .btn-login.loading::before {
+            content: 'CONNECTING';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--light-text);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: loading-text 2s infinite;
+        }
+
+        @keyframes loading-bar {
+            0% {
+                width: 0;
+                left: 10%;
+                transform: translateY(-50%);
+            }
+            50% {
+                width: 80%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                width: 0;
+                left: 90%;
+                transform: translateY(-50%);
+            }
+        }
+
+        @keyframes loading-text {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .btn-login.glitch {
+            animation: btn-glitch 0.3s ease;
+        }
+
+        @keyframes btn-glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-3px, 0);
+            }
+            40% {
+                transform: translate(3px, 0);
+            }
+            60% {
+                transform: translate(-3px, 0);
+            }
+            80% {
+                transform: translate(3px, 0);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        /* WhatsApp Button - Retro Tech Style */
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.875rem;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+        }
+
+        .whatsapp-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Package List - Retro Tech Style */
+        .package-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .package-item {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .package-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .package-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        .package-item:hover::before {
+            background-color: var(--primary-color);
+        }
+
+        .package-name {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+            text-transform: uppercase;
+        }
+
+        .package-details {
+            margin-bottom: 1rem;
+            color: var(--light-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .package-price {
+            margin-top: auto;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            align-self: flex-end;
+        }
+
+        /* Notice - Retro Tech Style */
+        .notice {
+            background-color: var(--darker-bg);
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        /* Info - Retro Tech Style */
+        .info {
+            background-color: var(--darker-bg);
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        /* FOOTER */
+        .footer {
+            width: 100%;
+            background-color: var(--darker-bg);
+            padding: 2rem 1.5rem;
+            position: relative;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 46, 99, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 46, 99, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.875rem;
+            color: var(--light-text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-highlight {
+            color: var(--primary-color);
+        }
+
+        .footer-tagline {
+            font-size: 0.75rem;
+            color: var(--light-text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--primary-color);
+            color: var(--light-text);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .footer-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            margin: 1rem 0;
+            opacity: 0.5;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .footer-brand-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-brand-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-brand-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-brand-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 150px;
+            height: 150px;
+            background-color: var(--primary-color);
+            opacity: 0.1;
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
+
+        @media screen and (max-width: 768px) {
+            .package-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .logo-text {
+                font-size: 1.25rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .package-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .package-item {
+                padding: 0.75rem;
+            }
+            
+            .package-name {
+                font-size: 0.9rem;
+            }
+            
+            .package-details {
+                font-size: 0.75rem;
+            }
+            
+            .package-price {
+                font-size: 1rem;
+            }
+            
+            .footer-grid {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+@keyframes textShadow {
+    0% {
+        text-shadow: 0.4389924193300864px 0 1px rgba(255, 46, 99, 0.5), -0.4389924193300864px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    5% {
+        text-shadow: 2.7928974010788217px 0 1px rgba(255, 46, 99, 0.5), -2.7928974010788217px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    10% {
+        text-shadow: 0.02956275843481219px 0 1px rgba(255, 46, 99, 0.5), -0.02956275843481219px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    15% {
+        text-shadow: 0.40218538552878136px 0 1px rgba(255, 46, 99, 0.5), -0.40218538552878136px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    20% {
+        text-shadow: 3.4794037899852017px 0 1px rgba(255, 46, 99, 0.5), -3.4794037899852017px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    25% {
+        text-shadow: 1.6125630401149584px 0 1px rgba(255, 46, 99, 0.5), -1.6125630401149584px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    30% {
+        text-shadow: 0.7015590085143956px 0 1px rgba(255, 46, 99, 0.5), -0.7015590085143956px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    35% {
+        text-shadow: 3.896914047650351px 0 1px rgba(255, 46, 99, 0.5), -3.896914047650351px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    40% {
+        text-shadow: 3.870905614848819px 0 1px rgba(255, 46, 99, 0.5), -3.870905614848819px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    45% {
+        text-shadow: 2.231056963361899px 0 1px rgba(255, 46, 99, 0.5), -2.231056963361899px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    50% {
+        text-shadow: 0.08084290417898504px 0 1px rgba(255, 46, 99, 0.5), -0.08084290417898504px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    55% {
+        text-shadow: 2.3758461067427543px 0 1px rgba(255, 46, 99, 0.5), -2.3758461067427543px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    60% {
+        text-shadow: 2.202193051050636px 0 1px rgba(255, 46, 99, 0.5), -2.202193051050636px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    65% {
+        text-shadow: 2.8638780614874975px 0 1px rgba(255, 46, 99, 0.5), -2.8638780614874975px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    70% {
+        text-shadow: 0.48874025155497314px 0 1px rgba(255, 46, 99, 0.5), -0.48874025155497314px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    75% {
+        text-shadow: 1.8948491305757957px 0 1px rgba(255, 46, 99, 0.5), -1.8948491305757957px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    80% {
+        text-shadow: 0.0833037308038857px 0 1px rgba(255, 46, 99, 0.5), -0.0833037308038857px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    85% {
+        text-shadow: 0.09769827255241735px 0 1px rgba(255, 46, 99, 0.5), -0.09769827255241735px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    90% {
+        text-shadow: 3.443339761481782px 0 1px rgba(255, 46, 99, 0.5), -3.443339761481782px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    95% {
+        text-shadow: 2.1841838852799786px 0 1px rgba(255, 46, 99, 0.5), -2.1841838852799786px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+    100% {
+        text-shadow: 2.6208764473832513px 0 1px rgba(255, 46, 99, 0.5), -2.6208764473832513px 0 1px rgba(8, 217, 214, 0.3), 0 0 3px;
+    }
+}
+
+@keyframes glitch-1 {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(0);
+    }
+    10% {
+        clip-path: polygon(0 15%, 100% 15%, 100% 40%, 0 40%);
+        transform: translate(-3px, 0);
+    }
+    20% {
+        clip-path: polygon(0 10%, 100% 10%, 100% 50%, 0 50%);
+        transform: translate(3px, 0);
+    }
+    30% {
+        clip-path: polygon(0 30%, 100% 30%, 100% 65%, 0 65%);
+        transform: translate(0, 0);
+    }
+    40% {
+        clip-path: polygon(0 45%, 100% 45%, 100% 60%, 0 60%);
+        transform: translate(3px, 0);
+    }
+    50% {
+        clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%);
+        transform: translate(-3px, 0);
+    }
+    60% {
+        clip-path: polygon(0 40%, 100% 40%, 100% 80%, 0 80%);
+        transform: translate(3px, 0);
+    }
+    70% {
+        clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+        transform: translate(-3px, 0);
+    }
+    80% {
+        clip-path: polygon(0 75%, 100% 75%, 100% 90%, 0 90%);
+        transform: translate(0, 0);
+    }
+    90% {
+        clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%);
+        transform: translate(-3px, 0);
+    }
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes glitch-2 {
+    0% {
+        clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+        transform: translate(0);
+    }
+    15% {
+        clip-path: polygon(0 65%, 100% 65%, 100% 80%, 0 80%);
+        transform: translate(5px, 0);
+    }
+    30% {
+        clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
+        transform: translate(-5px, 0);
+    }
+    45% {
+        clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%);
+        transform: translate(0, 0);
+    }
+    60% {
+        clip-path: polygon(0 55%, 100% 55%, 100% 70%, 0 70%);
+        transform: translate(5px, 0);
+    }
+    75% {
+        clip-path: polygon(0 70%, 100% 70%, 100% 85%, 0 85%);
+        transform: translate(-5px, 0);
+    }
+    90% {
+        clip-path: polygon(0 80%, 100% 80%, 100% 95%, 0 95%);
+        transform: translate(5px, 0);
+    }
+    100% {
+        clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+        transform: translate(0, 0);
+    }
+}
