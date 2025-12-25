@@ -1,0 +1,144 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Internet hotspot - Log out</title>
+<link rel="stylesheet" href="style.css">
+<script>
+    function openLogin() {
+	if (window.name != 'hotspot_logout') return true;
+	open('$(link-login)', '_blank', '');
+	window.close();
+	return false;
+    }
+</script>
+</head>
+<body>
+<div id="loading-overlay" class="loading-screen">
+    <div class="loading-spinner"></div>
+</div>
+<div class="main-container">
+    <div class="content-container">
+        <header class="header">
+            <div class="logo-container">
+                <svg class="logo-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                    <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0EA5E9" />
+                            <stop offset="100%" stop-color="#8B5CF6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <p class="site-title">AFRCloud.NET</p>
+                <div class="gradient-line"></div>
+                <p class="site-subtitle">SESSION TERMINATED</p>
+            </div>
+        </header>
+        
+        <div class="main-card">
+            <div class="tab-content active">
+                <h3 class="time-display" style="color: var(--danger); margin-bottom: 1rem; text-align: center;">ANDA TELAH TERPUTUS</h3>
+                
+                <!-- User Profile Section -->
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="user-welcome">Sampai Jumpa!</div>
+                    <div class="user-name">$(username)</div>
+                    <div class="user-status" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                        DISCONNECTED
+                    </div>
+                </div>
+
+                <!-- Detailed Information Table -->
+                <table class="info-table">
+                    <tr>
+                        <td>IP <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></div></td>
+                        <td>$(ip)</td>
+                    </tr>
+                    <tr>
+                        <td>MAC <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><line x1="2" y1="10" x2="22" y2="10"></line></svg></div></td>
+                        <td>$(mac)</td>
+                    </tr>
+                    <tr>
+                        <td>UP <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div></td>
+                        <td><div class="info-value upload">$(bytes-in-nice)</div></td>
+                    </tr>
+                    <tr>
+                        <td>DOWN <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div></td>
+                        <td><div class="info-value download">$(bytes-out-nice)</div></td>
+                    </tr>
+                    <tr>
+                        <td>TOTAL <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></div></td>
+                        <td><div class="info-value traffic">$(bytes-in-nice) / $(bytes-out-nice)</div></td>
+                    </tr>
+                    <tr>
+                        <td>TIME <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div></td>
+                        <td><div class="info-value time">$(uptime)</div></td>
+                    </tr>
+                    $(if session-time-left)
+                    <tr>
+                        <td>SISA WAKTU <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div></td>
+                        <td><div class="info-value time">$(session-time-left)</div></td>
+                    </tr>
+                    $(endif)
+                </table>
+                
+                <form action="$(link-login)" class="login-form">
+                    <button type="submit" class="btn btn-primary btn-ripple">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                        LOGIN KEMBALI
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- New Footer -->
+        <footer class="cool-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#0EA5E9" />
+                                    <stop offset="100%" stop-color="#8B5CF6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="logo-text">AFRCloud.NET</span>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        <span id="attribution-text"></span>
+                        <br>&copy; <span id="current-year"></span> <br> All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#" class="legal-link">Terms of Service</a>
+                        <span class="separator">|</span>
+                        <a href="#" class="legal-link">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

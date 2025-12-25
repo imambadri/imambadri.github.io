@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title id="title">AFR-Cloud.NET - Redirect</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0; maximum-scale=1.0;" />
+
+    <meta http-equiv="refresh" content="3; url=$(link-redirect)">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    
+    <link rel="icon" type="image" href="assets/images/favicon.svg" sizes="32x32">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS Anda tidak diubah, tetap sama */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+        .logo-container {
+            display: inline-block;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .logo {
+            width: 160px;
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            animation: pulse 2s infinite;
+        }
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            z-index: -1;
+            border-radius: var(--radius-full);
+        }
+        .loading-card {
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loading-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--secondary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .loading-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        .loading-spinner {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+        }
+        .spinner-outer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(56, 189, 248, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .spinner-middle {
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 70%;
+            height: 70%;
+            border: 4px solid rgba(139, 92, 246, 0.1);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
+        }
+        .spinner-inner {
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            width: 40%;
+            height: 40%;
+            border: 3px solid rgba(6, 182, 212, 0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+        .loading-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: var(--radius-full);
+            animation: progress 2s linear forwards; /* Disesuaikan agar lebih cepat */
+        }
+        .loading-message {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .loading-message svg {
+            margin-right: 0.5rem;
+            animation: blink 1.5s infinite;
+        }
+        .redirect-link {
+            margin-top: 1.5rem;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .redirect-link:hover {
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+        .redirect-link svg {
+            margin-left: 0.35rem;
+        }
+        @keyframes progress {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 1rem;
+            }
+            .loading-card {
+                padding: 1.5rem;
+            }
+            .loading-title {
+                font-size: 1.25rem;
+            }
+            .loading-subtitle {
+                font-size: 0.9rem;
+            }
+            .loading-spinner {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="content-container">
+            <div class="loading-container">
+                <h1 class="loading-title">AFR-Cloud.NET</h1>
+                <p class="loading-subtitle">Login Berhasil! Anda akan dialihkan...</p>
+                <div class="loading-card">
+                    <div class="loading-spinner">
+                        <div class="spinner-outer"></div>
+                        <div class="spinner-middle"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="loading-message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="2" x2="12" y2="6"></line>
+                            <line x1="12" y1="18" x2="12" y2="22"></line>
+                            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                            <line x1="2" y1="12" x2="6" y2="12"></line>
+                            <line x1="18" y1="12" x2="22" y2="12"></line>
+                            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        <span id="loading-message-text">Mempersiapkan sesi Anda...</span>
+                    </div>
+
+                    <a href="$(link-redirect)" class="redirect-link">
+                        Jika tidak beralih, klik di sini
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi ini akan dieksekusi untuk memulai proses redirect
+        function startRedirect() {
+            // Membuka jendela status popup jika diaktifkan di server hotspot
+            $(if popup == 'true')
+                open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
+            $(endif)
+            
+            // Perintah utama untuk mengarahkan browser ke halaman tujuan
+            location.href = unescape('$(link-redirect-esc)');
+        }
+
+        // Jalankan fungsi redirect setelah 1.5 detik agar animasi sempat terlihat
+        setTimeout(startRedirect, 1500);
+    </script>
+</body>
+</html>

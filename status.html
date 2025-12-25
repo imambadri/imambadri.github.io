@@ -1,0 +1,190 @@
+<html>
+<head>
+$(if refresh-timeout)
+<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+$(endif)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Internet hotspot - Status</title>
+<link rel="stylesheet" href="style.css">
+<script>
+
+$(if advert-pending == 'yes')
+    var popup = '';
+    function focusAdvert() {
+	if (window.focus) popup.focus();
+    }
+    function openAdvert() {
+	popup = open('$(link-advert)', 'hotspot_advert', '');
+	setTimeout("focusAdvert()", 1000);
+    }
+$(endif)
+    function openLogout() {
+	if (window.name != 'hotspot_status') return true;
+        open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+	window.close();
+	return false;
+    }
+</script>
+</head>
+<body>
+   <div id="loading-overlay" class="loading-screen">
+       <div class="loading-spinner"></div>
+   </div>
+   <div class="main-container">
+       <div class="content-container">
+           <header class="header">
+               <div class="logo-container">
+                   <svg class="logo-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                       <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                       <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                       <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                       <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                       <defs>
+                           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                               <stop offset="0%" stop-color="#0EA5E9" />
+                               <stop offset="100%" stop-color="#8B5CF6" />
+                           </linearGradient>
+                       </defs>
+                   </svg>
+                   <p class="site-title">AFR-Cloud.NET</p>
+                   <div class="gradient-line"></div>
+                   <p class="site-subtitle">CONNECTION STATUS</p>
+               </div>
+           </header>
+           
+           <div class="main-card">
+               <div class="tab-content active">
+                   $(if login-by == 'trial')
+                   <div class="user-profile">
+                       <div class="user-avatar">
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                       </div>
+                       <div class="user-welcome">Selamat Datang</div>
+                       <div class="user-name"></div>
+                       <div class="user-status">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                           CONNECTED
+                       </div>
+                   </div>
+                   $(elif login-by != 'mac')
+                   <div class="user-profile">
+                       <div class="user-avatar">
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                       </div>
+                       <div class="user-welcome">Selamat Datang</div>
+                       <div class="user-name">$(username)</div>
+                       <div class="user-status">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                           CONNECTED
+                       </div>
+                   </div>
+                   $(endif)
+                   
+                   $(if blocked == 'yes')
+                   <div class="login-info warning">
+                       <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="10" />
+                           <line x1="12" x2="12" y1="8" y2="12" />
+                           <line x1="12" x2="12.01" y1="16" y2="16" />
+                       </svg>
+                       <span class="info-text"><a href="$(link-advert)" target="hotspot_advert" class="contact-link" style="color: inherit; text-decoration: underline;">Iklan</a> diperlukan untuk melanjutkan</span>
+                   </div>
+                   $(endif)
+                   
+                   <table class="info-table">
+                       <tr>
+                           <td>IP <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></div></td>
+                           <td>$(ip)</td>
+                       </tr>
+                       <tr>
+                           <td>MAC <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><line x1="2" y1="10" x2="22" y2="10"></line></svg></div></td>
+                           <td>$(mac)</td>
+                       </tr>
+                       <tr>
+                           <td>UP <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div></td>
+                           <td><div class="info-value upload">$(bytes-in-nice)</div></td>
+                       </tr>
+                       <tr>
+                           <td>DOWN <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div></td>
+                           <td><div class="info-value download">$(bytes-out-nice)</div></td>
+                       </tr>
+                       <tr>
+                           <td>TOTAL <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></div></td>
+                           <td><div class="info-value traffic">$(bytes-in-nice) / $(bytes-out-nice)</div></td>
+                       </tr>
+                       <tr>
+                           <td>TIME <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div></td>
+                           <td><div class="info-value time">$(uptime)</div></td>
+                       </tr>
+                       $(if session-time-left)
+                       <tr>
+                           <td>EXPIRED <div class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div></td>
+                           <td><div class="info-value time">$(session-time-left)</div></td>
+                       </tr>
+                       $(endif)
+                       <!-- Assuming Mikrotik can provide these or you'll calculate with JS -->
+                   </table>
+                   
+                   <form action="$(link-logout)" name="logout" onSubmit="return openLogout()" class="login-form">
+                       $(if login-by-mac != 'yes')
+                       <button type="submit" class="btn btn-danger btn-ripple">
+                           <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                               <polyline points="16 17 21 12 16 7" />
+                               <line x1="21" x2="9" y1="12" y2="12" />
+                           </svg>
+                           LOGOUT
+                       </button>
+                       $(endif)
+                   </form>
+
+                   <div class="refresh-info">
+                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                       </svg>
+                       Data diperbarui secara otomatis
+                   </div>
+               </div>
+           </div>
+           
+           <!-- New Footer -->
+           <footer class="cool-footer">
+               <div class="footer-content">
+                   <div class="footer-left">
+                       <div class="footer-logo">
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                               <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                               <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                               <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                               <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                               <defs>
+                                   <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                       <stop offset="0%" stop-color="#0EA5E9" />
+                                       <stop offset="100%" stop-color="#8B5CF6" />
+                                   </linearGradient>
+                               </defs>
+                           </svg>
+                           <span class="logo-text">AFRCloud.NET</span>
+                       </div>
+                   </div>
+                   <div class="footer-bottom">
+                       <div class="copyright">
+                           <span id="attribution-text"></span>
+                           <br>&copy; <span id="current-year"></span> <br> All rights reserved.
+                       </div>
+                       <div class="footer-legal">
+                           <a href="#" class="legal-link">Terms of Service</a>
+                           <span class="separator">|</span>
+                           <a href="#" class="legal-link">Privacy Policy</a>
+                       </div>
+                   </div>
+               </div>
+           </footer>
+       </div>
+   </div>
+   <script src="script.js"></script>
+</body>
+</html>

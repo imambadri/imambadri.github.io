@@ -1,0 +1,92 @@
+$(if http-status == 302)Hotspot redirect$(endif)
+$(if http-header == "Location")$(link-redirect)$(endif)
+<html>
+<head>
+    <title>AFRCloud.NET > Redirect</title>
+    <meta http-equiv="refresh" content="2; url=$(link-redirect)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading-overlay" class="loading-screen">
+        <div class="loading-spinner"></div>
+    </div>
+    <div class="main-container">
+        <div class="content-container" style="text-align: center;">
+            <header class="header">
+                <div class="logo-container">
+                    <svg class="logo-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <p class="site-title">AFRCloud.NET</p>
+                    <div class="gradient-line"></div>
+                    <p class="site-subtitle">REDIRECTING</p>
+                </div>
+            </header>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    <footer class="cool-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">AFRCloud.NET</span>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <span id="attribution-text"></span>
+                    <br>&copy; <span id="current-year"></span> <br> All rights reserved.
+                </div>
+                <div class="footer-legal">
+                    <a href="#" class="legal-link">Terms of Service</a>
+                    <span class="separator">|</span>
+                    <a href="#" class="legal-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi ini akan dieksekusi setelah halaman dimuat
+        function startRedirect() {
+            // Membuka jendela status popup jika diaktifkan (fungsionalitas tambahan yang baik)
+            $(if popup == 'true')
+                open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
+            $(endif)
+
+            // Mengarahkan browser ke URL tujuan
+            location.href = unescape('$(link-redirect-esc)');
+        }
+
+        // Jalankan fungsi redirect setelah 1.5 detik (1500 milidetik)
+        // Ini memberi waktu bagi animasi untuk ditampilkan sebelum pindah halaman.
+        setTimeout(startRedirect, 1500);
+    </script>
+    
+    </body>
+</html>

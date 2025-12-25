@@ -7,6 +7,30 @@
 <meta http-equiv="expires" content="-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <link rel="stylesheet" href="style.css">
+<style>
+    .mode-selector {
+        display: flex;
+        width: 100%;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+    .btn-mode {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-weight: bold;
+        color: #555;
+        transition: background-color 0.3s;
+    }
+    .btn-mode.active {
+        background-color: #0ea5e9;
+        color: white;
+    }
+</style>
 </head>
 
 <body>
@@ -19,16 +43,8 @@
     <header class="header">
         <div class="logo-container">
             <svg class="logo-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-                <line x1="12" y1="20" x2="12.01" y2="20"></line>
-                <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#0EA5E9" />
-                        <stop offset="100%" stop-color="#8B5CF6" />
-                    </linearGradient>
-                </defs>
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line>
+                <defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0EA5E9" /><stop offset="100%" stop-color="#8B5CF6" /></linearGradient></defs>
             </svg>
             <p class="site-title">AFRCloud.NET</p>
             <div class="gradient-line"></div>
@@ -39,49 +55,28 @@
     <div class="main-card">
         <div class="nav-tabs">
             <div class="nav-tab active" data-tab="login">
-                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                    <polyline points="10 17 15 12 10 7" />
-                    <line x1="15" x2="3" y1="12" y2="12" />
-                </svg>
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" x2="3" y1="12" y2="12" /></svg>
                 Login
             </div>
             <div class="nav-tab" data-tab="paket">
-                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m7.5 4.27 9 5.15" />
-                    <path d="m7.5 19.73 9-5.15" />
-                    <path d="M11.29 16.43 2.5 11 11.29 5.57c.53-.31 1.2-.31 1.73 0L21.5 11l-8.79 5.43c-.53.31-1.2.31-1.73 0Z" />
-                    <path d="m2.5 11 9 5.15" />
-                    <path d="m12.71 16.43 8.79-5.43" />
-                </svg>
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15" /><path d="m7.5 19.73 9-5.15" /><path d="M11.29 16.43 2.5 11 11.29 5.57c.53-.31 1.2-.31 1.73 0L21.5 11l-8.79 5.43c-.53.31-1.2.31-1.73 0Z" /><path d="m2.5 11 9 5.15" /><path d="m12.71 16.43 8.79-5.43" /></svg>
                 Paket
             </div>
             <div class="tab-indicator"></div>
         </div>
 
         <div id="login-content" class="tab-content active">
-            <div class="clock-widget">
-                <div class="time-display" id="current-time"></div>
-                <div class="date-display" id="current-date"></div>
-            </div>
-
-            <div id="error-message" class="login-info danger" style="display: none;">
-                <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" y2="12" />
-                    <line x1="12" x2="12.01" y1="16" y2="16" />
-                </svg>
-                <span class="info-text" id="error-text"></span>
-            </div>
+            <div class="clock-widget"><div class="time-display" id="current-time"></div><div class="date-display" id="current-date"></div></div>
+            <div id="error-message" class="login-info danger" style="display: none;"><svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg> <span class="info-text" id="error-text"></span></div>
 
             <div id="login-section">
-                <div class="login-info">
-                    <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 16v-4" />
-                        <path d="M12 8h.01" />
-                    </svg>
-                    <span class="info-text">Masukkan Kode Voucher kemudian klik login.</span>
+                <div class="mode-selector">
+                    <button id="btnVoucher" class="btn-mode active">Voucher</button>
+                    <button id="btnMember" class="btn-mode">Member</button>
+                </div>
+                <div id="info-box" class="login-info">
+                    <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span class="info-text" id="info-text">Masukkan Kode Voucher kemudian klik login.</span>
                 </div>
 
                 <form name="login" action="$(link-login-only)" method="post" class="login-form" $(if chap-id) onSubmit="return doLogin()" $(endif)>
@@ -89,16 +84,9 @@
                     <input type="hidden" name="popup" value="true" />
                     <div class="form-group">
                         <input type="text" name="username" class="form-control" placeholder="Masukkan kode voucher di sini" required />
-                        <input type="hidden" name="password" />
+                        <input type="password" name="password" class="form-control" placeholder="Password" style="display: none; margin-top: 10px;"/>
                     </div>
-
-                    <button type="submit" class="btn btn-primary btn-ripple">
-                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                        </svg>
-                        MASUK
-                    </button>
+                    <button type="submit" class="btn btn-primary btn-ripple"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg> MASUK</button>
                 </form>
 
                 $(if trial == 'yes')
@@ -116,14 +104,7 @@
                     <p class="date-display">Data Keluar: <span id="status-bytes-out"></span></p>
                 </div>
                 <form action="$(link-logout)" method="post" class="login-form">
-                    <button type="submit" class="btn btn-primary btn-ripple">
-                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                            <polyline points="16 17 21 12 16 7" />
-                            <line x1="21" x2="9" y1="12" y2="12" />
-                        </svg>
-                        LOGOUT
-                    </button>
+                    <button type="submit" class="btn btn-primary btn-ripple"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg> LOGOUT</button>
                 </form>
             </div>
         </div>
@@ -135,25 +116,25 @@
                     <div class="package-info">
                         <div class="package-header"><div class="package-name">6JAM</div><div class="package-details">Unlimited • 6 Jam</div></div><div class="package-price">Rp 2.000</div>
                     </div>
-                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%206JAM" target="_blank" class="btn btn-whatsapp"><svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M17.657 16.657a1 1 0 0 1-1.414 0L12 12.414l-4.243 4.243a1 1 0 1 1-1.414-1.414L10.586 11 6.343 6.757a1 1 0 1 1 1.414-1.414L12 9.586l4.243-4.243a1 1 0 1 1 1.414 1.414L13.414 11l4.243 4.243a1 1 0 0 1 0 1.414z"/></svg>Beli</a></div>
+                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%206JAM" target="_blank" class="btn btn-whatsapp">Beli</a></div>
                 </div>
                 <div class="package-card">
                     <div class="package-info">
                         <div class="package-header"><div class="package-name">12JAM</div><div class="package-details">Unlimited • 12 Jam</div></div><div class="package-price">Rp 3.000</div>
                     </div>
-                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%2012JAM" target="_blank" class="btn btn-whatsapp"><svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M17.657 16.657a1 1 0 0 1-1.414 0L12 12.414l-4.243 4.243a1 1 0 1 1-1.414-1.414L10.586 11 6.343 6.757a1 1 0 1 1 1.414-1.414L12 9.586l4.243-4.243a1 1 0 1 1 1.414 1.414L13.414 11l4.243 4.243a1 1 0 0 1 0 1.414z"/></svg>Beli</a></div>
+                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%2012JAM" target="_blank" class="btn btn-whatsapp">Beli</a></div>
                 </div>
                 <div class="package-card">
                     <div class="package-info">
                         <div class="package-header"><div class="package-name">18JAM</div><div class="package-details">Unlimited • 18 Jam</div></div><div class="package-price">Rp 4.000</div>
                     </div>
-                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%2018JAM" target="_blank" class="btn btn-whatsapp"><svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M17.657 16.657a1 1 0 0 1-1.414 0L12 12.414l-4.243 4.243a1 1 0 1 1-1.414-1.414L10.586 11 6.343 6.757a1 1 0 1 1 1.414-1.414L12 9.586l4.243-4.243a1 1 0 1 1 1.414 1.414L13.414 11l4.243 4.243a1 1 0 0 1 0 1.414z"/></svg>Beli</a></div>
+                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%2018JAM" target="_blank" class="btn btn-whatsapp">Beli</a></div>
                 </div>
                 <div class="package-card">
                     <div class="package-info">
                         <div class="package-header"><div class="package-name">1HARI</div><div class="package-details">Unlimited • 1 Hari</div></div><div class="package-price">Rp 5.000</div>
                     </div>
-                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%201HARI" target="_blank" class="btn btn-whatsapp"><svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M17.657 16.657a1 1 0 0 1-1.414 0L12 12.414l-4.243 4.243a1 1 0 1 1-1.414-1.414L10.586 11 6.343 6.757a1 1 0 1 1 1.414-1.414L12 9.586l4.243-4.243a1 1 0 1 1 1.414 1.414L13.414 11l4.243 4.243a1 1 0 0 1 0 1.414z"/></svg>Beli</a></div>
+                    <div class="package-action"><a href="https://wa.me/6287838981858?text=Beli%201HARI" target="_blank" class="btn btn-whatsapp">Beli</a></div>
                 </div>
             </div>
         </div>
@@ -167,10 +148,8 @@
 
     $(if chap-id)
       <form name="sendin" action="$(link-login-only)" method="post">
-          <input type="hidden" name="username" />
-          <input type="hidden" name="password" />
-          <input type="hidden" name="dst" value="$(link-orig)" />
-          <input type="hidden" name="popup" value="true" />
+          <input type="hidden" name="username" /><input type="hidden" name="password" />
+          <input type="hidden" name="dst" value="$(link-orig)" /><input type="hidden" name="popup" value="true" />
       </form>
       <script type="text/javascript" src="md5.js"></script>
       <script type="text/javascript">
@@ -213,41 +192,73 @@
 
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Elemen-elemen yang akan dimanipulasi ---
     const usernameInput = document.login.username;
     const passwordInput = document.login.password;
+    const infoText = document.getElementById('info-text');
+    const btnVoucher = document.getElementById('btnVoucher');
+    const btnMember = document.getElementById('btnMember');
     const loginSection = document.getElementById('login-section');
     const statusSection = document.getElementById('status-section');
-    const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // ================== FUNGSI UNTUK MODE VOUCHER & MEMBER ==================
 
-    // Sembunyikan loading screen setelah halaman dimuat
-    loadingOverlay.style.display = 'none';
+    // Fungsi untuk beralih ke mode VOUCHER
+    function switchToVoucherMode() {
+        passwordInput.style.display = 'none'; // Sembunyikan field password
+        passwordInput.value = ''; // Kosongkan nilainya
+        usernameInput.placeholder = 'Masukkan Kode Voucher';
+        infoText.innerText = 'Masukkan Kode Voucher kemudian klik login.';
+        usernameInput.onkeyup = setPasswordAsUsername; // AKTIFKAN auto-copy
+        
+        // Atur style tombol aktif
+        btnVoucher.classList.add('active');
+        btnMember.classList.remove('active');
+        usernameInput.focus();
+    }
 
-    // Fokus pada input username
+    // Fungsi untuk beralih ke mode MEMBER
+    function switchToMemberMode() {
+        passwordInput.style.display = 'block'; // TAMPILKAN field password
+        usernameInput.placeholder = 'Masukkan Username Member';
+        infoText.innerText = 'Masukkan Username & Password Member.';
+        usernameInput.onkeyup = null; // MATIKAN auto-copy
+        passwordInput.value = ''; // Kosongkan password
+        
+        // Atur style tombol aktif
+        btnMember.classList.add('active');
+        btnVoucher.classList.remove('active');
+        usernameInput.focus();
+    }
+    
+    // Fungsi yang menyalin username ke password (HANYA UNTUK VOUCHER)
+    function setPasswordAsUsername() {
+        passwordInput.value = usernameInput.value;
+    }
+
+    // Tambahkan event listener ke tombol
+    btnVoucher.addEventListener('click', switchToVoucherMode);
+    btnMember.addEventListener('click', switchToMemberMode);
+
+
+    // --- Inisialisasi awal halaman ---
+    document.getElementById('loading-overlay').style.display = 'none';
     usernameInput.focus();
-
-function setPassword() {
-    passwordInput.value = usernameInput.value;
-}
-    // Jalankan fungsi setPassword setiap kali ada input
-    usernameInput.onkeyup = setPassword;
+    
+    // Atur halaman agar dimulai dalam mode Voucher
+    switchToVoucherMode();
 
     // Cek status login dari variabel Mikrotik
     const isLoggedIn = document.getElementById('mikrotik-logged-in').value === 'yes';
     const errorMsg = document.getElementById('mikrotik-error').value;
 
     if (isLoggedIn) {
-        // Jika sudah login, tampilkan halaman status
         loginSection.style.display = 'none';
         statusSection.style.display = 'block';
         document.getElementById('status-uptime').innerText = document.getElementById('mikrotik-uptime').value;
         document.getElementById('status-bytes-in').innerText = document.getElementById('mikrotik-bytes-in').value;
         document.getElementById('status-bytes-out').innerText = document.getElementById('mikrotik-bytes-out').value;
     } else {
-        // Jika belum login, tampilkan form login
-        loginSection.style.display = 'block';
-        statusSection.style.display = 'none';
-
-        // Tampilkan pesan error jika ada
         if (errorMsg) {
             const errorContainer = document.getElementById('error-message');
             const errorText = document.getElementById('error-text');
@@ -256,24 +267,18 @@ function setPassword() {
         }
     }
 
-    // --- Fungsionalitas Tambahan ---
+    // --- Fungsionalitas Tambahan (Tidak Berubah) ---
 
     // 1. Logika Navigasi Tab
     const tabs = document.querySelectorAll('.nav-tab');
     const tabContents = document.querySelectorAll('.tab-content');
     const tabIndicator = document.querySelector('.tab-indicator');
-
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            // Hapus kelas aktif dari semua tab dan konten
             tabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
-
-            // Tambahkan kelas aktif ke tab yang diklik dan konten yang sesuai
             tab.classList.add('active');
             document.getElementById(tab.dataset.tab + '-content').classList.add('active');
-
-            // Pindahkan indikator
             tabIndicator.style.left = tab.offsetLeft + 'px';
             tabIndicator.style.width = tab.offsetWidth + 'px';
         });
@@ -284,27 +289,23 @@ function setPassword() {
         const now = new Date();
         const timeEl = document.getElementById('current-time');
         const dateEl = document.getElementById('current-date');
-        
-        // Format Waktu: HH:MM:SS
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
-        timeEl.innerText = `${hours}:${minutes}:${seconds}`;
-
-        // Format Tanggal
+        if(timeEl) timeEl.innerText = `${hours}:${minutes}:${seconds}`;
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        dateEl.innerText = now.toLocaleDateString('id-ID', options);
+        if(dateEl) dateEl.innerText = now.toLocaleDateString('id-ID', options);
     }
-    
-    // Perbarui jam setiap detik, jika elemennya ada
     if (document.getElementById('current-time')) {
         setInterval(updateClock, 1000);
-        updateClock(); // Panggil sekali saat memuat
+        updateClock();
     }
     
     // 3. Update Tahun di Footer
-    document.getElementById('current-year').innerText = new Date().getFullYear();
+    const yearSpan = document.getElementById('current-year');
+    if(yearSpan) yearSpan.innerText = new Date().getFullYear();
 });
 </script>
+
 </body>
 </html>

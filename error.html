@@ -1,0 +1,103 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Internet hotspot - Error</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading-overlay" class="loading-screen">
+        <div class="loading-spinner"></div>
+    </div>
+    <div class="main-container">
+        <div class="content-container">
+            <header class="header">
+                <div class="logo-container">
+                    <svg class="logo-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <p class="site-title">ERROR</p>
+                    <div class="gradient-line"></div>
+                    <p class="site-subtitle">CONNECTION FAILED</p>
+                </div>
+            </header>
+            
+            <div class="main-card">
+                <div class="tab-content active" style="text-align: center;">
+                    <div class="info-icon" style="margin: 0 auto 1rem; color: var(--danger);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" x2="12" y1="8" y2="12" />
+                            <line x1="12" x2="12.01" y1="16" y2="16" />
+                        </svg>
+                    </div>
+                    <h3 class="time-display" style="color: var(--danger); margin-bottom: 1rem;">SYSTEM ERROR</h3>
+                    <div class="login-info danger">
+                        <span class="info-text">
+                            $(if error)
+                                $(error)
+                            $(else)
+                                Connection error. Please try again later.
+                            $(endif)
+                        </span>
+                    </div>
+                    
+                    <a href="$(link-login)" class="btn btn-primary btn-ripple">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                        KEMBALI KE LOGIN
+                    </a>
+                </div>
+            </div>
+            
+            <!-- New Footer -->
+            <footer class="cool-footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="footer-logo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#0EA5E9" />
+                                        <stop offset="100%" stop-color="#8B5CF6" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span class="logo-text">AFR-Cloud.NET</span>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="copyright">
+                            <span id="attribution-text"></span>
+                            <br>&copy; <span id="current-year"></span> <br> All rights reserved.
+                        </div>
+                        <div class="footer-legal">
+                            <a href="#" class="legal-link">Terms of Service</a>
+                            <span class="separator">|</span>
+                            <a href="#" class="legal-link">Privacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
