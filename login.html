@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id="title">AFR-Cloud.NET | Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1a1a2e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="retro-bg"></div>
+
+    <header class="header">
+        <div class="header-decoration"></div>
+        <div class="header-content">
+            <div class="logo-container">
+                <h1 class="logo-text">AFR-<span class="logo-highlight">CLOUD</span>.NET</h1>
+            </div>
+            <div class="tagline" style="color: var(--light-text-secondary); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px;">
+                Unlimited Freedom
+            </div>
+        </div>
+    </header>
+    
+    <main class="main">
+        <div class="card">
+            <div class="card-header">
+                <div>HOTSPOT LOGIN</div>
+                <div class="card-header-tabs">
+    <div class="card-tab active" id="voucher-tab">VOUCHER</div>
+    <div class="card-tab" id="userpass-tab">USERNAME</div>
+    <div class="card-tab" id="packages-tab">PACKAGES</div>
+</div>
+            </div>
+            
+            <div class="card-body">
+                <div class="tab-content active" id="voucher-content">
+    <div id="infologin" class="info">Masukkan Kode Voucher kemudian klik login.</div>    
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+    
+    <script type="text/javascript" src="md5.js"></script>
+    <script type="text/javascript">
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+    $(endif)
+    
+    <form autocomplete="off" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+        
+        <div class="form-group">
+            <label class="form-label" for="username">Kode Voucher</label>
+            <input class="input" id="username" name="username" type="text" value="$(username)" placeholder="Masukkan kode voucher di sini" autocomplete="off" autocorrect="off" autocapitalize="off" />
+        </div>
+        
+        <input type="hidden" name="password" />
+        
+        <button class="btn btn-login" id="voucherLoginBtn" type="submit">LOGIN</button>
+    </form>
+    
+    $(if trial == 'yes')
+    <div style="margin-top: 1rem;">
+        Coba gratis <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">klik di sini</a>
+    </div>
+    $(endif)
+    
+    $(if error)
+    <div class="notice">$(error)</div>
+    $(endif)
+    
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="https://wa.me/6287838981858" class="whatsapp-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="whatsapp-icon">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+            BELI VIA WHATSAPP
+        </a>
+    </div>
+</div>
+
+<div class="tab-content" id="userpass-content">
+    <div class="info">Masukkan Username dan Password untuk login.</div>
+    $(if chap-id)
+    <form name="sendin2" action="$(link-login-only)" method="post">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+    
+    <script type="text/javascript">
+        function doLoginUserPass() {
+            document.sendin2.username.value = document.loginUserPass.username.value;
+            document.sendin2.password.value = hexMD5('$(chap-id)' + document.loginUserPass.password.value + '$(chap-challenge)');
+            document.sendin2.submit();
+            return false;
+        }
+    </script>
+    $(endif)
+    
+    <form autocomplete="off" name="loginUserPass" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLoginUserPass()" $(endif)>
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+        
+        <div class="form-group">
+            <label class="form-label" for="usernameField">Username</label>
+            <input class="input" id="usernameField" name="username" type="text" value="$(username)" placeholder="Masukkan username" autocomplete="off" autocorrect="off" autocapitalize="off" />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="passwordField">Password</label>
+            <input class="input" id="passwordField" name="password" type="password" placeholder="Masukkan password" autocomplete="off" />
+        </div>
+        
+        <button class="btn btn-login" id="userpassLoginBtn" type="submit">LOGIN</button>
+    </form>
+    <br>
+    $(if error)
+    <div class="notice">$(error)</div>
+    $(endif)
+    
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="https://wa.me/6287838981858" class="whatsapp-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="whatsapp-icon">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+            BELI VIA WHATSAPP
+        </a>
+    </div>
+</div>
+                
+                <div class="tab-content" id="packages-content">
+                    <div class="package-list">
+                        
+                        <div class="package-item">
+                            <div class="package-name">6 JAM</div>
+                            <div class="package-details">Speed: 6Mbps</div>
+                            <div class="package-price">Rp 2.000</div>
+                        </div>
+                        
+                        <div class="package-item">
+                            <div class="package-name">12 JAM</div>
+                            <div class="package-details">Speed: 7Mbps</div>
+                            <div class="package-price">Rp 3.000</div>
+                        </div>
+                        
+                        <div class="package-item">
+                            <div class="package-name">18 JAM</div>
+                            <div class="package-details">Speed: 9Mbps</div>
+                            <div class="package-price">Rp 4.000</div>
+                        </div>
+                        
+                        <div class="package-item">
+                            <div class="package-name">24 JAM</div>
+                            <div class="package-details">Speed: 10Mbps</div>
+                            <div class="package-price">Rp 5.000</div>
+                        </div>
+                                        
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <a href="https://wa.me/6287838981858" class="whatsapp-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="whatsapp-icon">
+                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                            </svg>
+                            BELI VIA WHATSAPP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <div>Copyright &copy; 2025 <a href="https://wa.me/6287838981858" class="footer-brand-link">AFR-Cloud.NET</a></div>
+            <div>Powered by <a href="https://laksa19.github.io">Mikhmon</a></div>
+        </div>
+    </div>
+</footer>
+
+    <script type="text/javascript">
+        // Tab Switching
+document.addEventListener('DOMContentLoaded', function() {
+    const voucherTab = document.getElementById('voucher-tab');
+    const userpassTab = document.getElementById('userpass-tab');
+    const packagesTab = document.getElementById('packages-tab');
+    const voucherContent = document.getElementById('voucher-content');
+    const userpassContent = document.getElementById('userpass-content');
+    const packagesContent = document.getElementById('packages-content');
+    
+    voucherTab.addEventListener('click', function() {
+        voucherTab.classList.add('active');
+        userpassTab.classList.remove('active');
+        packagesTab.classList.remove('active');
+        voucherContent.classList.add('active');
+        userpassContent.classList.remove('active');
+        packagesContent.classList.remove('active');
+    });
+    
+    userpassTab.addEventListener('click', function() {
+        userpassTab.classList.add('active');
+        voucherTab.classList.remove('active');
+        packagesTab.classList.remove('active');
+        userpassContent.classList.add('active');
+        voucherContent.classList.remove('active');
+        packagesContent.classList.remove('active');
+    });
+    
+    packagesTab.addEventListener('click', function() {
+        packagesTab.classList.add('active');
+        voucherTab.classList.remove('active');
+        userpassTab.classList.remove('active');
+        packagesContent.classList.add('active');
+        voucherContent.classList.remove('active');
+        userpassContent.classList.remove('active');
+    });
+    
+    // Initialize login form
+    const username = document.login.username;
+    const password = document.login.password;
+    
+    username.placeholder = "Masukkan kode voucher di sini";
+    username.focus();
+    
+    // Set password = username for voucher login
+    username.addEventListener('input', function() {
+        const user = username.value;
+        username.value = user;
+        password.value = user;
+    });
+    
+    // Set page title
+    const hostname = window.location.hostname;
+    document.getElementById('title').innerHTML = hostname + " > login";
+    
+    // Set login info
+    const infologin = document.getElementById('infologin');
+    infologin.innerHTML = "Masukkan Kode Voucher kemudian klik login.";
+    
+    // Login Button Animation
+    const voucherLoginBtn = document.getElementById('voucherLoginBtn');
+    const userpassLoginBtn = document.getElementById('userpassLoginBtn');
+    
+    if (voucherLoginBtn) {
+        voucherLoginBtn.addEventListener('click', function(e) {
+            // Check if form is valid
+            const voucherInput = document.getElementById('username');
+            if (voucherInput.value.trim() === '') {
+                // Show glitch effect for invalid input
+                this.classList.add('glitch');
+                setTimeout(() => {
+                    this.classList.remove('glitch');
+                }, 300);
+                return;
+            }
+            // this.classList.add('loading'); // <-- BARIS INI DIHILANGKAN
+            
+            // Simulate delay for demo purposes (remove in production)
+            // setTimeout(() => {
+            //     this.classList.remove('loading');
+            // }, 3000);
+            
+            // The form will submit normally after animation starts
+        });
+    }
+    
+    if (userpassLoginBtn) {
+        userpassLoginBtn.addEventListener('click', function(e) {
+            // Check if form is valid
+            const usernameField = document.getElementById('usernameField');
+            const passwordField = document.getElementById('passwordField');
+            
+            if (usernameField.value.trim() === '' || passwordField.value.trim() === '') {
+                // Show glitch effect for invalid input
+                this.classList.add('glitch');
+                setTimeout(() => {
+                    this.classList.remove('glitch');
+                }, 300);
+                return;
+            }
+            
+            // Show loading animation
+            // this.classList.add('loading'); // <-- BARIS INI JUGA DIHILANGKAN
+            
+            // Simulate delay for demo purposes (remove in production)
+            // setTimeout(() => {
+            //     this.classList.remove('loading');
+            // }, 3000);
+            
+            // The form will submit normally after animation starts
+        });
+    }
+});
+    </script>
+</body>
+</html>
