@@ -1,109 +1,305 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WiFi Scanner Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#3B5998" />
+    <title>Scanner - A✗A Wave</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #1a1a1a; color: white; margin: 0; padding: 20px; }
-        #reader { width: 100%; max-width: 450px; margin: 20px auto; border-radius: 15px; overflow: hidden; border: 2px solid #333; background: #000; }
-        .status-box { background: #2d2d2d; padding: 15px; border-radius: 10px; max-width: 420px; margin: auto; }
-        #resultText { color: #4caf50; font-weight: bold; margin-top: 10px; min-height: 20px; }
-        #loading-msg { color: #ff9800; font-style: italic; }
-        .dark-warning { display: none; background: #ff5722; color: white; padding: 10px; border-radius: 5px; margin-top: 15px; font-size: 14px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        /* ===== RESET & BASE STYLE (Sama dengan Login) ===== */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #eef2ff, transparent 40%),
+                radial-gradient(circle at bottom right, #d1fae5, transparent 40%),
+                linear-gradient(160deg, #e0e7ff, #ecfeff);
+            background-attachment: fixed;
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ===== CARD CONTAINER ===== */
+        .card-style {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 24px;
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            padding: 24px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative;
+        }
+
+        /* ===== BRAND HEADER ===== */
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0 0 4px;
+            color: #1e293b;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        /* ===== SCANNER BOX ===== */
+        #reader {
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            /* Menghilangkan border bawaan library jika ada */
+            border: none !important; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-height: 300px; /* Placeholder tinggi */
+        }
+        
+        /* CSS Hack untuk merapikan elemen bawaan html5-qrcode */
+        #reader video {
+            object-fit: cover;
+            border-radius: 18px;
+        }
+        #reader__scan_region {
+            background: transparent !important;
+        }
+
+        /* ===== VIEWFINDER OVERLAY (Kotak Bidik) ===== */
+        .scan-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 12px;
+            pointer-events: none; /* Agar klik tembus ke video */
+            z-index: 10;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4); /* Efek gelap di luar kotak */
+        }
+        /* Sudut kotak bidik */
+        .scan-overlay::before, .scan-overlay::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: #3b82f6; /* Warna biru tema */
+            border-style: solid;
+            transition: all 0.3s;
+        }
+        .scan-overlay::before {
+            top: -2px; left: -2px;
+            border-width: 4px 0 0 4px;
+            border-radius: 12px 0 0 0;
+        }
+        .scan-overlay::after {
+            bottom: -2px; right: -2px;
+            border-width: 0 4px 4px 0;
+            border-radius: 0 0 12px 0;
+        }
+        /* Tambahan sudut kanan atas & kiri bawah via shadow/box lain bisa, 
+           tapi untuk simpel pakai 2 pseudo element saja cukup estetik */
+
+        .scan-overlay.active {
+            border-color: #22c55e;
+        }
+        .scan-overlay.active::before, .scan-overlay.active::after {
+            border-color: #22c55e;
+        }
+
+        /* ===== STATUS & ALERT ===== */
+        .status-box {
+            margin-top: 16px;
+        }
+        
+        #resultText {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            min-height: 20px;
+        }
+
+        /* Peringatan Gelap (Styling seperti login notice) */
+        .dark-warning {
+            display: none;
+            background: #fff1f2;
+            color: #be123c;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 12px;
+            border: 1px solid #fecaca;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            margin-top: 16px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 8px;
+        }
+
+        .btn-back {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        .btn-back:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .scanning-anim {
+            animation: pulse 2s infinite;
+        }
     </style>
 </head>
 <body>
 
-    <h2>WiFi Access Scanner</h2>
-    
-    <div id="loading-msg">Menyiapkan kamera...</div>
-    
-    <div id="reader"></div>
-
-    <div class="status-box">
-        <div id="resultText">Siap memindai QR Code</div>
-        <div id="dark-instruction" class="dark-warning">
-            ⚠️ Terlalu gelap? Dekatkan QR atau nyalakan flash HP Anda.
+    <div class="card-style">
+        <!-- Header -->
+        <div class="brand">A✗A Wave</div>
+        <div class="subtitle">Arahkan kamera ke QR Code Voucher</div>
+        
+        <!-- Scanner Area -->
+        <div style="position: relative;">
+            <div id="reader"></div>
+            <!-- Overlay Viewfinder -->
+            <div id="viewfinder" class="scan-overlay scanning-anim"></div>
         </div>
+
+        <!-- Status -->
+        <div class="status-box">
+            <div id="resultText">Menyiapkan kamera...</div>
+            
+            <div id="dark-instruction" class="dark-warning">
+                💡 <b>Terlalu gelap?</b><br>Dekatkan layar atau nyalakan lampu ruangan.
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <button class="btn-action btn-back" onclick="window.history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Kembali ke Login
+        </button>
     </div>
 
+    <!-- Audio Effect -->
     <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
-    <script>
+<script>
     const beep = document.getElementById("beep-sound");
     const darkMsg = document.getElementById("dark-instruction");
-    const loadingMsg = document.getElementById("loading-msg");
     const statusText = document.getElementById("resultText");
+    const viewfinder = document.getElementById("viewfinder");
 
-    let lastSuccessFrame = Date.now(); // Waktu terakhir kamera menangkap gambar jelas
+    let lastSuccessFrame = Date.now(); 
     let isDarkActive = false;
+    let html5QrCode;
 
     function onScanSuccess(decodedText, decodedResult) {
-        if (navigator.vibrate) navigator.vibrate(300);
+        // Hentikan getaran 'pulse' saat berhasil
+        viewfinder.classList.remove("scanning-anim");
+        viewfinder.classList.add("active"); // Ubah warna jadi hijau
+        
+        if (navigator.vibrate) navigator.vibrate(200);
         beep.play();
-        statusText.innerHTML = `Berhasil! Mengalihkan...`;
-        setTimeout(() => { window.location.href = decodedText; }, 500);
+        
+        statusText.style.color = "#22c55e"; // Green success text
+        statusText.innerHTML = `✅ QR Terdeteksi! Memproses...`;
+
+        // Stop scanner agar tidak scan berulang kali
+        html5QrCode.stop().then(() => {
+            // Redirect
+            setTimeout(() => { 
+                window.location.href = decodedText; 
+            }, 800);
+        }).catch(err => {
+             window.location.href = decodedText; 
+        });
     }
 
     function onScanFailure(error) {
-        // Jika errornya bukan karena kamera mati, tapi karena QR tidak ditemukan
-        // Kita periksa apakah sudah terlalu lama (gelap/blur)
+        // Logika deteksi gelap (mirip script asli Anda)
         let now = Date.now();
-        
-        // Jika sudah lebih dari 2.5 detik gagal terus
-        if (now - lastSuccessFrame > 2500) {
+        if (now - lastSuccessFrame > 3000) { // 3 detik tanpa deteksi
             if (!isDarkActive) {
                 darkMsg.style.display = "block";
                 isDarkActive = true;
-                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             }
         }
-
-        // Catatan: Library ini akan memicu 'failure' setiap frame jika QR tidak ditemukan.
-        // Namun, jika kamera benar-benar gelap total, sensor akan mengirim sinyal error yang berbeda.
     }
 
-    // Fungsi konstan untuk memantau aktivitas
-    setInterval(() => {
-        // Kita cek secara berkala, jika kamera merespon (onScanFailure terpanggil), 
-        // tapi kita ingin reset jika user memberi cahaya.
-        // Untuk sistem yang lebih simpel, kita tambahkan tombol reset atau 
-        // kita pantau jika library masih berjalan.
-    }, 500);
+    // Inisialisasi Scanner
+    function startScanner() {
+        html5QrCode = new Html5Qrcode("reader");
+        const config = { 
+            fps: 10, 
+            qrbox: { width: 250, height: 250 },
+            aspectRatio: 1.0
+        };
 
-    const html5QrCode = new Html5Qrcode("reader");
-    const config = { 
-        fps: 20, 
-        qrbox: { width: 250, height: 250 },
-        videoConstraints: { facingMode: { exact: "environment" } }
-    };
+        // Coba kamera belakang (environment)
+        html5QrCode.start(
+            { facingMode: "environment" }, 
+            config, 
+            onScanSuccess,
+            onScanFailure
+        ).then(() => {
+            statusText.innerHTML = "Memindai...";
+            lastSuccessFrame = Date.now();
+        }).catch((err) => {
+            statusText.innerHTML = "⚠️ Gagal akses kamera. Izinkan akses.";
+            statusText.style.color = "#be123c";
+        });
+    }
 
-    html5QrCode.start(
-        { facingMode: "environment" }, 
-        config, 
-        onScanSuccess,
-        (error) => {
-            // Setiap kali kamera "berusaha" mencari QR tapi gagal (bisa karena gelap)
-            onScanFailure(error);
-        }
-    ).then(() => {
-        loadingMsg.style.display = "none";
-        // Reset waktu mulai saat kamera berhasil terbuka
-        lastSuccessFrame = Date.now();
-    }).catch((err) => {
-        loadingMsg.innerHTML = "Gagal akses kamera.";
-    });
-
-    // Reset instruksi jika user menyentuh layar (asumsi user sudah sadar/menyalakan lampu)
+    // Reset status jika user menyentuh layar (User interaction reset)
     document.body.addEventListener('touchstart', () => {
         darkMsg.style.display = "none";
         isDarkActive = false;
         lastSuccessFrame = Date.now();
     });
+
+    // Jalankan scanner saat load
+    document.addEventListener("DOMContentLoaded", startScanner);
+
 </script>
 </body>
 </html>
+
